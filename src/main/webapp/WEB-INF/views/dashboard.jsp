@@ -68,6 +68,12 @@
             </button>
 
         </a>
+        <a onclick="window.location.href= /market-price/">
+            <button type="button" class="btn btn-primary ml-4">
+                Market Price
+            </button>
+
+        </a>
     </div>
 </div>
 <div class="container-fluid home-content1">

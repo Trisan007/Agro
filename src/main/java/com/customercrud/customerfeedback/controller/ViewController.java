@@ -57,6 +57,11 @@ public class ViewController {
         return "feedback";
     }
 
+    @GetMapping("/market-price")
+    public String loadMarketPriceData(){
+        return "market-price";
+    }
+
     @GetMapping("/feedback-list")
     public String loadFeedbackList(ModelMap modelMap){
         List<User> users = userService.findUserByUserType(UserType.USER); // only client user can give feedback
