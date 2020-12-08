@@ -113,6 +113,7 @@
                     console.log(data);
                     data.result.forEach(d => {
                         if (d['retailPrice'].length > 0) {
+                            console.log(d);
                             var m = "<tr><td>" + d['id'] +
                                 "</td> <td>" + d['commodityName'] + "</td>";
 
@@ -120,6 +121,18 @@
                                 "<td>Rs. " + d['retailPrice'][0]['min'] + "</td>" +
                                 "<td>Rs. " + d['retailPrice'][0]['max'] + "</td>" +
                                 "<td>Rs. " + d['retailPrice'][0]['avg'] + "</td>")
+
+                            m += "</tr>";
+                            var tableBody = $("table tbody");
+                            tableBody.append(m);
+                        } else {
+                            var m = "<tr><td>" + d['id'] +
+                                "</td> <td>" + d['commodityName'] + "</td>";
+
+                            m += ("<td>" + 'Not Added' + "</td>" +
+                                "<td>Rs. " + 'Not Added' + "</td>" +
+                                "<td>Rs. " + 'Not Added' + "</td>" +
+                                "<td>Rs. " + 'Not Added' + "</td>")
 
                             m += "</tr>";
                             var tableBody = $("table tbody");

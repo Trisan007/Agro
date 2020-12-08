@@ -1,69 +1,83 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.util.*" %>
-<%@ page import="com.google.gson.Gson" %>
-<%@ page import="com.google.gson.JsonObject" %>
-<jsp:include page="header.jsp"/>
-
-<%
-    Gson gsonObj = new Gson();
-    Map<Object, Object> map = null;
-    List<Map<Object, Object>> list = new ArrayList<Map<Object, Object>>();
-
-    map = new HashMap<Object, Object>();
-    map.put("label", "strongly like");
-    map.put("y", 35);
-    map.put("exploded", true);
-    list.add(map);
-    map = new HashMap<Object, Object>();
-    map.put("label", "like");
-    map.put("y", 20);
-    list.add(map);
-    map = new HashMap<Object, Object>();
-    map.put("label", "neutral");
-    map.put("y", 18);
-    list.add(map);
-    map = new HashMap<Object, Object>();
-    map.put("label", "dislike");
-    map.put("y", 15);
-    list.add(map);
-    map = new HashMap<Object, Object>();
-    map.put("label", "strongly dislike");
-    map.put("y", 5);
-    list.add(map);
-
-    String dataPoints = gsonObj.toJson(list);
-%>
+<!DOCTYPE HTML>
 <html>
 <head>
-    <title>summary</title>
-    <script type="text/javascript">
-        window.onload = function() {
+    <script>
+        /*let price_hundred_to_fivety = 0;
+        let price_hundred_fivety_to_two_hundred = 0;
+        let price_two_hundred_to_two_hundred_fivety = 0;
+        let price_two_hundred_fivety_to_three_hundred= 0;
+        let total = 0;
+        $(document).ready(function () {
 
-            var chart = new CanvasJS.Chart("chartContainer", {
-                theme: "light2",
-                animationEnabled: true,
-                exportFileName: "New Year Resolutions",
-                exportEnabled: true,
-                title:{
-                    text: "Overall Feedback Points"
+            $.ajax({
+                url: "http://168.63.241.180/kalimati-price/api/today",
+                type: "GET",
+                success: function (data) {
+
+                    if (data == null) {
+                        alert("no data found !!");
+
+                    } else {
+                        console.log(data);
+                        data.result.forEach(d => {
+                            if (d['retailPrice'].length > 0) {
+                                if( d['retailPrice'][0]['avg'] > 100 && d['retailPrice'][0]['avg'] < 150) {
+                                    price_hundred_to_fivety += d['retailPrice'][0]['avg'];
+                                } else if( d['retailPrice'][0]['avg'] >= 150 && d['retailPrice'][0]['avg'] <= 200) {
+                                    price_hundred_fivety_to_two_hundred += d['retailPrice'][0]['avg'];
+                                } else if( d['retailPrice'][0]['avg'] >= 200 && d['retailPrice'][0]['avg'] <= 250) {
+                                    price_two_hundred_to_two_hundred_fivety += d['retailPrice'][0]['avg'];
+                                }else if( d['retailPrice'][0]['avg'] >= 250 && d['retailPrice'][0]['avg'] <= 300) {
+                                    price_two_hundred_fivety_to_three_hundred += d['retailPrice'][0]['avg'];
+                                }
+                                total += d['retailPrice'][0]['avg'];
+                            }
+                        });
+                        console.log(total);
+                    }
                 },
+
+            });
+        });*/
+
+
+
+        // asddsd
+        window.onload = function () {
+
+            var options = {
+                title: {
+                    text: "Feed back summary"
+                },
+                subtitles: [{
+                    text: "Feedback"
+                }],
+                animationEnabled: true,
                 data: [{
                     type: "pie",
-                    showInLegend: true,
+                    startAngle: 40,
+                    toolTipContent: "<b>{label}</b>: {y}%",
+                    showInLegend: "true",
                     legendText: "{label}",
-                    toolTipContent: "{label}: <strong>{y}%</strong>",
-                    indexLabel: "{label} {y}%",
-                    dataPoints : <%out.print(dataPoints);%>
+                    indexLabelFontSize: 16,
+                    indexLabel: "{label} - {y}%",
+                    dataPoints: [
+                        { y: 48.36, label: "One Star" },
+                        { y: 26.85, label: "Two Star" },
+                        { y: 1.49, label: "Three Star" },
+                        { y: 6.98, label: "Four Star" },
+                        { y: 6.53, label: "Five Star" },
+                    ]
                 }]
-            });
-
-            chart.render();
+            };
+            $("#chartContainer").CanvasJSChart(options);
 
         }
     </script>
 </head>
 <body>
-<div id="chartContainer" style="height: 370px; width: 100%; margin-top: 100px;"></div>
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
 </body>
 </html>

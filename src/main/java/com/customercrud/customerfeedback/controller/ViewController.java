@@ -16,7 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * View  Control
+ * Main api '/'
+ * only view returning related api*/
 @Controller
 public class ViewController {
     @Autowired
@@ -24,12 +27,25 @@ public class ViewController {
 
     @Autowired
     private FeedbackService feedbackService;
-
+    /**
+     * default api
+     * index page*/
     @RequestMapping(method = RequestMethod.GET)
-    public String index(ModelMap model) {
+    public String index(ModelMap model , HttpServletResponse response) {
+        // clear cookie data
+        Cookie name = new Cookie("username",null);
+        Cookie userId = new Cookie("userId",null);
+        Cookie userType = new Cookie("userType",null);
+        response.addCookie(name);
+        response.addCookie(userId);
+        response.addCookie(userType);
         return "index";
     }
 
+    /**
+     * summary page returning api
+     * @param username -name of user
+     * @param password -password of user*/
     @PostMapping("/login")
     public String login(@RequestParam String username , @RequestParam String password , ModelMap modelMap, HttpServletResponse response, HttpServletRequest request) {
         // todo find user type and return view according to it
@@ -44,7 +60,7 @@ public class ViewController {
         }
         modelMap.put("user" , user);
         Cookie name = new Cookie("username",user.getUserName());
-        Cookie userId = new Cookie("``userId``",user.getId().toString());
+        Cookie userId = new Cookie("userId",user.getId().toString());
         Cookie userType = new Cookie("userType",user.getUserType().toString());
         response.addCookie(name);
         response.addCookie(userId);
@@ -52,11 +68,15 @@ public class ViewController {
         return "dashboard";
     }
 
+    /**
+     * view page feedback*/
     @GetMapping("/feed-back")
     public String loadFeedback(){
         return "feedback";
     }
 
+    /**
+     * rest api market price data page*/
     @GetMapping("/market-price")
     public String loadMarketPriceData(){
         return "market-price";
@@ -68,7 +88,8 @@ public class ViewController {
         modelMap.put("users" , users);
         return "feedback-list";
     }
-
+    /**
+     * view all feedback*/
     @GetMapping("/feed-back/{id}")
     public String loadFeedbackIndividual(@PathVariable String id, ModelMap modelMap){
         User user = userService.findById(Integer.valueOf(id));
@@ -80,6 +101,8 @@ public class ViewController {
         return "summary";
     }
 
+    /**
+     * index - logout*/
     @GetMapping("/logout")
     public String logout(HttpServletResponse response) {
         // clear cookie data
@@ -93,6 +116,8 @@ public class ViewController {
     }
 
 
+    /**
+     * home page*/
     @GetMapping("/home")
     public String home(HttpServletRequest httpServletRequest , ModelMap modelMap) {
         Map<String, Cookie> cookieMap = new HashMap<>();
